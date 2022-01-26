@@ -13,14 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.t07m.mcsecurity.notifier.email;
+package com.t07m.mcsecurity.notifier.sms;
 
-import java.awt.image.BufferedImage;
+public interface SMSClient {
 
-public interface EmailClient {
-
-	public boolean sendMessage(String senderEmail, String senderName, String recipient, String subject, String body);
-	
-	public boolean sendMessage(String senderEmail, String senderName, String recipient, String subject, String body, String imagePrefix, BufferedImage... images);
+	public boolean sendMessage(String sender, String recipient, String body);
 	
 }
