@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.t07m.mcsecurity.notifier.sms;
+package com.t07m.mcsecurity.notification.sms;
 
 import com.twilio.Twilio;
 import com.twilio.exception.ApiException;

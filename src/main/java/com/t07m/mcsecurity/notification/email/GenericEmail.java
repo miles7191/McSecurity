@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.t07m.mcsecurity.notifier.email;
+package com.t07m.mcsecurity.notification.email;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
