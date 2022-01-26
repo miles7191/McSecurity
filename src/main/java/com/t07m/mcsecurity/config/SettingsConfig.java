@@ -40,6 +40,13 @@ public class SettingsConfig extends YamlConfig {
 			new CameraConfig("Default", false, "url", "user", "pass")
 	};
 	
+	private @Getter @Setter String GmailUser = "";
+	private @Getter @Setter String GmailPassword = "";
+	private @Getter @Setter String TwilioAccountSID = "";
+	private @Getter @Setter String TwilioAuthToken = "";
+	private @Getter @Setter String TwilioPhoneNumber = "";
+	private @Getter @Setter boolean AutoHide = true;
+	
 	@ToString
 	@NoArgsConstructor
 	@AllArgsConstructor

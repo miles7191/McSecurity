@@ -30,7 +30,7 @@ public class UsersConfig extends YamlConfig {
 	}
 	
 	private @Getter @Setter UserConfig[] usersConfig = new UserConfig[] {
-			new UserConfig("Default", true, new String[] {"00000"}, "Default", new String[] {"*"})
+			new UserConfig("Default", true, "email", "phone", new String[] {"00000"}, "Default", new String[] {"*"})
 	};
 	
 	@ToString
@@ -39,6 +39,8 @@ public class UsersConfig extends YamlConfig {
 	public class UserConfig extends YamlConfig {
 		private @Getter @Setter String name;
 		private @Getter @Setter boolean suppressAlerts;
+		private @Getter @Setter String email;
+		private @Getter @Setter String phoneNumber;
 		private @Getter @Setter String[] stores;
 		private @Getter @Setter String userGroup;
 		private @Getter @Setter String[] permissions;
