@@ -42,8 +42,7 @@ public class SettingsConfig extends YamlConfig {
 	
 	private @Getter @Setter String SMTPHost = "";
 	private @Getter @Setter String SMTPPort = "";
-	private @Getter @Setter boolean SMTPSSL = true;
-	private @Getter @Setter boolean SMTPauth = true;
+	private @Getter @Setter String SMTPSSL = "";
 	private @Getter @Setter String SMTPUser = "";
 	private @Getter @Setter String SMTPPassword = "";
 	
