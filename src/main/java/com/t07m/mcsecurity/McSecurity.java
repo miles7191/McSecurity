@@ -32,6 +32,7 @@ import com.t07m.mcsecurity.config.DataConfig;
 import com.t07m.mcsecurity.config.GroupsConfig;
 import com.t07m.mcsecurity.config.SettingsConfig;
 import com.t07m.mcsecurity.config.UsersConfig;
+import com.t07m.mcsecurity.productoutage.ProductOutageHandler;
 import com.t07m.mcsecurity.stld.STLDHandler;
 
 import lombok.Getter;
@@ -53,6 +54,7 @@ public class McSecurity extends Application {
 	private @Getter UsersConfig usersConfig;
 	
 	private @Getter CameraManager cameraManager;
+	private @Getter ProductOutageHandler productOutageHandler;
 	private @Getter STLDHandler sTLDHandler;
 	
 	public static void main(String[] args) {
@@ -99,14 +101,20 @@ public class McSecurity extends Application {
 			}
 		}
 		logger.info("Launching Application - " + getIdentity() + " Store:" + settingsConfig.getStore());
+		
+		
 		this.cameraManager = new CameraManager(this);
+		this.productOutageHandler = new ProductOutageHandler(this);
 		this.sTLDHandler = new STLDHandler(this);
 		for(Handler handler : new Handler[] {
 				this.cameraManager,
+				this.productOutageHandler,
 				this.sTLDHandler
 		}) {
 			handler.init();
 		}
+		
+		
 		if(this.getConsole() instanceof ConsoleWindow) {
 			if(settingsConfig.isAutoHide())
 				((ConsoleWindow)(this.getConsole())).setState(Frame.ICONIFIED);

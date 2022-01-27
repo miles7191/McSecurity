@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.t07m.mcsecurity.stld;
+package com.t07m.mcsecurity.productoutage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,59 +21,48 @@ import org.slf4j.LoggerFactory;
 import com.t07m.application.Handler;
 import com.t07m.mcsecurity.McSecurity;
 
-public class STLDHandler extends Handler<McSecurity> {
-	
-	private static final Logger logger = LoggerFactory.getLogger(STLDHandler.class);
+import lombok.Getter;
 
-	private STLDFetcher fetcher;
-	
-	private STLDFile stld;
-	private long stldTimestamp = -1;
-	
-	public STLDHandler(McSecurity app) {
+public class ProductOutageHandler extends Handler<McSecurity> {
+
+	private static final Logger logger = LoggerFactory.getLogger(ProductOutageHandler.class);
+
+	private ProductOutageFetcher fetcher;
+
+	private @Getter ProductOutageFile productOutageFile;
+
+	public ProductOutageHandler(McSecurity app) {
 		super(app);
 	}
-
+	
 	public void init() {
-		logger.debug("Initializing STLDHandler");
-		this.fetcher = new STLDFetcher(this);
+		logger.debug("Initializing ProductOutageHandler");
+		this.fetcher = new ProductOutageFetcher(this);
 		getApp().registerService(fetcher);
 	}
 
 	public void cleanup() {
-		getApp().removeService(fetcher);
-	}	
-	
-	public STLDFile getSTLDFile(long minTimeStamp) {
-		if(stldTimestamp >= minTimeStamp) {
-			return stld;
-		}else {
-			fetcher.request();
-		}
-		return null;
+		getApp().registerService(fetcher);
 	}
-	
-	boolean generateSTLD(byte[] bytes, long time) {
-		if(bytes != null) {
-			stld = new STLDFile(STLDSanitizer.sanitizeTLD(new String(bytes)));
-			stldTimestamp = time;
-			return true;
+
+	public void generateProductOutage(byte[] data) {
+		if(data != null) {
+			productOutageFile = new ProductOutageFile(new String(data));
 		}
-		return false;
 	}
-	
+
 	String getWaystationIP() {
 		return getApp().getSettingsConfig().getWaystationIP();
 	}
-	
+
 	String getWaystationDomain() {
 		return getApp().getSettingsConfig().getWaystationDomain();
 	}
-	
+
 	String getWaystationUsername() {
 		return getApp().getSettingsConfig().getWaystationUsername();
 	}
-	
+
 	String getWaystationPassword() {
 		return getApp().getSettingsConfig().getWaystationPassword();
 	}

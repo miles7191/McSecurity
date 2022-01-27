@@ -19,16 +19,21 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.t07m.application.Service;
 import com.t07m.mcsecurity.McSecurity;
 import com.t07m.mcsecurity.smb.SmbSource;
 
 public class STLDFetcher extends Service<McSecurity>{
+	
+	private static final Logger logger = LoggerFactory.getLogger(STLDFetcher.class);
 
 	private final STLDHandler handler;
 
 	private Object requestLock = new Object();
-	private boolean requested = false;
+	private boolean requested = true;
 
 	STLDFetcher(STLDHandler handler) {
 		super(TimeUnit.SECONDS.toMillis(1));
@@ -46,6 +51,7 @@ public class STLDFetcher extends Service<McSecurity>{
 	public void process() {
 		synchronized(requestLock) {
 			if(requested) {
+				logger.debug("Fetching STLD");
 				SmbSource smb = new SmbSource(
 						handler.getWaystationIP(),
 						handler.getWaystationDomain(),
@@ -65,7 +71,9 @@ public class STLDFetcher extends Service<McSecurity>{
 					}
 					if(date != null) {
 						long timestamp = System.currentTimeMillis();
-						byte[] data = smb.readFile("/d/NewPos61/STLD/TEMP/" + DateTimeFormatter.BASIC_ISO_DATE.format(date) + "/STLD.TLD");
+						String stldPath = "/d/NewPos61/STLD/TEMP/" + DateTimeFormatter.BASIC_ISO_DATE.format(date) + "/STLD.TLD";
+						logger.debug("STLD Path: " + stldPath);
+						byte[] data = smb.readFile(stldPath);
 						if(data != null) {
 							if(handler.generateSTLD(data, timestamp)) {
 								requested = false;

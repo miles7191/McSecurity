@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.t07m.mcsecurity.stld;
+package com.t07m.mcsecurity.productoutage;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -28,17 +28,17 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public class STLD {
-	
-	private static final Logger logger = LoggerFactory.getLogger(STLD.class);
+public class ProductOutageFile {
+
+	private static final Logger logger = LoggerFactory.getLogger(ProductOutageFile.class);
 
 	private Document document;
 	private String raw;
-
-	STLD(String xml) {
+	
+	ProductOutageFile(String xml) {
 		this.raw = xml;
 	}
-
+	
 	public Document getDocument() {
 		if(document == null) {
 			try {
@@ -54,6 +54,5 @@ public class STLD {
 			}
 		}
 		return document;
-	}
-
+	}	
 }
