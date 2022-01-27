@@ -25,8 +25,8 @@ public class CameraWatcher extends Service<McSecurity>{
 
 	private Camera camera;
 	
-	public CameraWatcher(McSecurity app, Camera camera) {
-		super(app, TimeUnit.SECONDS.toMillis(3));
+	CameraWatcher(Camera camera) {
+		super(TimeUnit.SECONDS.toMillis(3));
 		this.camera = camera;
 	}
 	

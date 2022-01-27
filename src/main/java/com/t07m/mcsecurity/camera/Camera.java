@@ -27,6 +27,7 @@ import javax.imageio.ImageIO;
 
 import org.imgscalr.Scalr;
 
+import com.t07m.mcsecurity.McSecurity;
 import com.t07m.mcsecurity.config.SettingsConfig.CameraConfig;
 
 import lombok.Getter;
@@ -40,9 +41,11 @@ public class Camera {
 	private ArrayList<Long> timestamps = new ArrayList<Long>();
 
 	private @Getter @Setter CameraConfig config;
+	private @Getter CameraWatcher cameraWatcher;
 
 	public Camera(CameraConfig config) {
 		this.config = config;
+		this.cameraWatcher = new CameraWatcher(this);
 	}
 	
 	BufferedImage pullImage() {
