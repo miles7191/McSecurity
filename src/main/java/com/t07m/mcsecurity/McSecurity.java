@@ -15,6 +15,7 @@
  */
 package com.t07m.mcsecurity;
 
+import java.awt.Frame;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -23,6 +24,9 @@ import org.slf4j.LoggerFactory;
 import com.github.javafaker.Faker;
 import com.github.zafarkhaja.semver.Version;
 import com.t07m.application.Application;
+import com.t07m.application.Manager;
+import com.t07m.console.swing.ConsoleWindow;
+import com.t07m.mcsecurity.camera.CameraManager;
 import com.t07m.mcsecurity.config.AlertsConfig;
 import com.t07m.mcsecurity.config.DataConfig;
 import com.t07m.mcsecurity.config.GroupsConfig;
@@ -47,6 +51,8 @@ public class McSecurity extends Application {
 	private @Getter SettingsConfig settingsConfig;
 	private @Getter UsersConfig usersConfig;
 	
+	private @Getter CameraManager cameraManager;
+	
 	public static void main(String[] args) {
 		boolean gui = true;
 		if(args.length > 0) {
@@ -63,6 +69,7 @@ public class McSecurity extends Application {
 		super(gui, "McSecurity");
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void init() {
 		logger.info("Loading configuration files.");
 		this.alertsConfig = new AlertsConfig();
@@ -90,6 +97,16 @@ public class McSecurity extends Application {
 			}
 		}
 		logger.info("Launching Application - " + getIdentity() + " Store:" + settingsConfig.getStore());
+		this.cameraManager = new CameraManager(this);
+		for(Manager manager : new Manager[] {
+				this.cameraManager
+		}) {
+			manager.init();
+		}
+		if(this.getConsole() instanceof ConsoleWindow) {
+			if(settingsConfig.isAutoHide())
+				((ConsoleWindow)(this.getConsole())).setState(Frame.ICONIFIED);
+		}
 	}
 	
 	public static String getIdentity() {
