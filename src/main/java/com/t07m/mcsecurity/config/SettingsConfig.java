@@ -69,7 +69,7 @@ public class SettingsConfig extends YamlConfig {
 	@ToString
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class CameraConfig extends YamlConfig {
+	public class CameraConfig extends YamlConfig {
 		private @Getter @Setter String name;
 		private @Getter @Setter boolean enabled;
 		private @Getter @Setter String url;
