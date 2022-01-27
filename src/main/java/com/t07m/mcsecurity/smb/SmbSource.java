@@ -22,6 +22,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import jcifs.CIFSContext;
 import jcifs.CIFSException;
@@ -32,16 +34,14 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class SmbSource {
+
+	private static final Logger logger = LoggerFactory.getLogger(SmbSource.class);
 	
 	private final String ip;
 	private final String domain;
 	private final String username;
 	private final String password;
-	
-	public String[] list(String path) {
-		return list(path, "*");
-	}
-	
+
 	public long getLastModified(String path) {
 		try {
 			SmbResource resource = getContext().get(getRemoteURL(path));
@@ -51,7 +51,7 @@ public class SmbSource {
 		}
 		return -1;
 	}
-	
+
 	public byte[] readFile(String path) {
 		try {
 			SmbResource resource = getContext().get(getRemoteURL(path));
@@ -65,6 +65,10 @@ public class SmbSource {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public String[] list(String path) {
+		return list(path, "*");
 	}
 	
 	public String[] list(String path, String wildcard) {
@@ -85,6 +89,33 @@ public class SmbSource {
 		}
 		return null;
 	}
+	
+	public String[] listDirectories(String path) {
+		return listDirectories(path, "*");
+	}
+
+
+	public String[] listDirectories(String path, String wildcard) {
+		try {
+			if(!path.endsWith("/"))
+				path = path + "/";
+			SmbResource resource = getContext().get(getRemoteURL(path));
+			if(resource.isDirectory()) {
+				List<String> names = new ArrayList<String>();
+				Iterator<SmbResource> itr = resource.children(wildcard);
+				while(itr.hasNext()) {
+					SmbResource res = itr.next();
+					if(res.isDirectory()) {
+						names.add(itr.next().getName());
+					}
+				}
+				return names.toArray(new String[names.size()]);
+			}
+		} catch (CIFSException e) {
+			logger.error(e.getMessage());
+		}
+		return null;
+	}
 
 	private CIFSContext getContext() {
 		return SingletonContext.getInstance().withCredentials(getAuth());
@@ -99,5 +130,5 @@ public class SmbSource {
 			path = "/" + path;
 		return "smb://" + ip + path;
 	}	
-	
+
 }

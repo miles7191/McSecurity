@@ -15,12 +15,17 @@
  */
 package com.t07m.mcsecurity.notification.sms;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.twilio.Twilio;
 import com.twilio.exception.ApiException;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 
 public class TwilioSMS implements SMSClient{
+	
+	private static final Logger logger = LoggerFactory.getLogger(TwilioSMS.class);
 
 	public void init(String account_sid, String auth_token) {
 		Twilio.init(account_sid, auth_token);

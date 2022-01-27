@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import com.github.javafaker.Faker;
 import com.github.zafarkhaja.semver.Version;
 import com.t07m.application.Application;
-import com.t07m.application.Manager;
+import com.t07m.application.Handler;
 import com.t07m.console.swing.ConsoleWindow;
 import com.t07m.mcsecurity.camera.CameraManager;
 import com.t07m.mcsecurity.config.AlertsConfig;
@@ -32,6 +32,7 @@ import com.t07m.mcsecurity.config.DataConfig;
 import com.t07m.mcsecurity.config.GroupsConfig;
 import com.t07m.mcsecurity.config.SettingsConfig;
 import com.t07m.mcsecurity.config.UsersConfig;
+import com.t07m.mcsecurity.stld.STLDHandler;
 
 import lombok.Getter;
 import net.cubespace.Yamler.Config.InvalidConfigurationException;
@@ -41,7 +42,7 @@ public class McSecurity extends Application {
 
 	public static final Version VERSION = Version.valueOf("0.0.1");
 	
-	private static Logger logger = LoggerFactory.getLogger(McSecurity.class);
+	private static final Logger logger = LoggerFactory.getLogger(McSecurity.class);
 	
 	private static String identity;
 	
@@ -52,6 +53,7 @@ public class McSecurity extends Application {
 	private @Getter UsersConfig usersConfig;
 	
 	private @Getter CameraManager cameraManager;
+	private @Getter STLDHandler sTLDHandler;
 	
 	public static void main(String[] args) {
 		boolean gui = true;
@@ -98,10 +100,12 @@ public class McSecurity extends Application {
 		}
 		logger.info("Launching Application - " + getIdentity() + " Store:" + settingsConfig.getStore());
 		this.cameraManager = new CameraManager(this);
-		for(Manager manager : new Manager[] {
-				this.cameraManager
+		this.sTLDHandler = new STLDHandler(this);
+		for(Handler handler : new Handler[] {
+				this.cameraManager,
+				this.sTLDHandler
 		}) {
-			manager.init();
+			handler.init();
 		}
 		if(this.getConsole() instanceof ConsoleWindow) {
 			if(settingsConfig.isAutoHide())

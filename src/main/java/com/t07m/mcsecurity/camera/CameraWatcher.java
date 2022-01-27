@@ -18,10 +18,15 @@ package com.t07m.mcsecurity.camera;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.t07m.application.Service;
 import com.t07m.mcsecurity.McSecurity;
 
 public class CameraWatcher extends Service<McSecurity>{
+	
+	private static final Logger logger = LoggerFactory.getLogger(CameraWatcher.class);
 
 	private Camera camera;
 	

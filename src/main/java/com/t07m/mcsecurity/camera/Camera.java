@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import org.imgscalr.Scalr;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.t07m.mcsecurity.McSecurity;
 import com.t07m.mcsecurity.config.SettingsConfig.CameraConfig;
@@ -35,6 +37,8 @@ import lombok.Setter;
 
 public class Camera {
 
+	private static final Logger logger = LoggerFactory.getLogger(Camera.class);
+	
 	private Object syncLock = new Object();
 
 	private ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();

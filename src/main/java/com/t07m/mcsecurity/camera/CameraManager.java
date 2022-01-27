@@ -24,11 +24,11 @@ import com.t07m.mcsecurity.config.SettingsConfig.CameraConfig;
 
 public class CameraManager extends Manager<McSecurity, Camera> {
 
+	private static final Logger logger = LoggerFactory.getLogger(CameraManager.class);
+	
 	public CameraManager(McSecurity app) {
 		super(app, new Camera[0]);
 	}
-
-	private static Logger logger = LoggerFactory.getLogger(CameraManager.class);
 
 	public void init() {
 		logger.debug("Initializing CameraManager");

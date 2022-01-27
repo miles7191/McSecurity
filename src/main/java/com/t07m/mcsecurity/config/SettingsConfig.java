@@ -15,6 +15,9 @@
  */
 package com.t07m.mcsecurity.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +26,8 @@ import lombok.ToString;
 import net.cubespace.Yamler.Config.YamlConfig;
 
 public class SettingsConfig extends YamlConfig {
+	
+	private static final Logger logger = LoggerFactory.getLogger(SettingsConfig.class);
 
 	public SettingsConfig() {
 		super("settings.yml");
@@ -39,6 +44,11 @@ public class SettingsConfig extends YamlConfig {
 	private @Getter @Setter CameraConfig[] cameraConfigs = new CameraConfig[] {
 			new CameraConfig("Default", false, "url", "user", "pass", 720, 5)
 	};
+	
+	private @Getter @Setter String waystationIP = "";
+	private @Getter @Setter String waystationDomain = "";
+	private @Getter @Setter String waystationUsername = "";
+	private @Getter @Setter String waystationPassword = "";
 	
 	private @Getter @Setter String SMTPHost = "";
 	private @Getter @Setter String SMTPPort = "";
