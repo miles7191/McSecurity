@@ -97,7 +97,7 @@ public class GenericEmail implements EmailClient{
 							byte[] bytes = baos.toByteArray();
 							DataSource ds = new ByteArrayDataSource(bytes, "image/png");
 							attachmentPart.setDataHandler(new DataHandler(ds));
-							attachmentPart.setFileName(imagePrefix + "-" + (i+1));
+							attachmentPart.setFileName(imagePrefix + "-" + (i+1)+".png");
 							multipart.addBodyPart(attachmentPart);
 						} catch (IOException e) {
 							e.printStackTrace();

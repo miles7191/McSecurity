@@ -37,7 +37,7 @@ public class SettingsConfig extends YamlConfig {
 	};
 	
 	private @Getter @Setter CameraConfig[] cameraConfigs = new CameraConfig[] {
-			new CameraConfig("Default", false, "url", "user", "pass")
+			new CameraConfig("Default", false, "url", "user", "pass", 720, 5)
 	};
 	
 	private @Getter @Setter String SMTPHost = "";
@@ -69,12 +69,14 @@ public class SettingsConfig extends YamlConfig {
 	@ToString
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public class CameraConfig extends YamlConfig {
+	public static class CameraConfig extends YamlConfig {
 		private @Getter @Setter String name;
 		private @Getter @Setter boolean enabled;
 		private @Getter @Setter String url;
 		private @Getter @Setter String username;
 		private @Getter @Setter String password;
+		private @Getter @Setter int maxHeight;
+		private @Getter @Setter int buffer;
 	}
 	
 }
