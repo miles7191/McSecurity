@@ -3,5 +3,6 @@
 /.classpath
 /.settings
 /working/
+/src/test/
 *.yml
 *.html

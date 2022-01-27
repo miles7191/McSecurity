@@ -91,7 +91,7 @@ public class McSecurity extends Application {
 				e.printStackTrace();
 				logger.error("Unable to load " + config.getClass().getSimpleName() + " file!");
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(5000);
 				} catch (InterruptedException e1) {}
 				System.exit(-1);
 			}
