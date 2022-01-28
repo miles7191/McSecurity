@@ -62,6 +62,8 @@ public class SettingsConfig extends YamlConfig {
 	
 	private @Getter @Setter String GitHubToken = "";
 	private @Getter @Setter String GitHubRepo = "";
+	private @Getter @Setter String GitHubCommitSHA1 = "";
+	private @Getter @Setter String GitHubCommitDate = "";
 	
 	private @Getter @Setter boolean AutoHide = true;
 	private @Getter @Setter boolean AutoRestartConfigured = true;

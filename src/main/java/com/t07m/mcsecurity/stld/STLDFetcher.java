@@ -77,6 +77,7 @@ public class STLDFetcher extends Service<McSecurity>{
 						if(data != null) {
 							if(handler.generateSTLD(data, timestamp)) {
 								requested = false;
+								logger.debug("STLD Sucessfully Fetched");
 							}
 						}
 					}

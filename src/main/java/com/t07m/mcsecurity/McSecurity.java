@@ -32,6 +32,7 @@ import com.t07m.mcsecurity.config.DataConfig;
 import com.t07m.mcsecurity.config.GroupsConfig;
 import com.t07m.mcsecurity.config.SettingsConfig;
 import com.t07m.mcsecurity.config.UsersConfig;
+import com.t07m.mcsecurity.github.GitHubHandler;
 import com.t07m.mcsecurity.productoutage.ProductOutageHandler;
 import com.t07m.mcsecurity.stld.STLDHandler;
 
@@ -56,6 +57,7 @@ public class McSecurity extends Application {
 	private @Getter CameraManager cameraManager;
 	private @Getter ProductOutageHandler productOutageHandler;
 	private @Getter STLDHandler sTLDHandler;
+	private @Getter GitHubHandler gitHubHandler;
 
 	public static void main(String[] args) {
 		boolean gui = true;
@@ -131,14 +133,15 @@ public class McSecurity extends Application {
 		}
 		logger.info("Launching Application - " + getIdentity() + " Store:" + settingsConfig.getStore());
 
-
 		this.cameraManager = new CameraManager(this);
 		this.productOutageHandler = new ProductOutageHandler(this);
 		this.sTLDHandler = new STLDHandler(this);
+		this.gitHubHandler = new GitHubHandler(this);
 		for(Handler handler : new Handler[] {
 				this.cameraManager,
 				this.productOutageHandler,
-				this.sTLDHandler
+				this.sTLDHandler,
+				this.gitHubHandler
 		}) {
 			handler.init();
 		}
