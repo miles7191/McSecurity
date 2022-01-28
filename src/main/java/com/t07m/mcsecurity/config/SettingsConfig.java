@@ -60,7 +60,11 @@ public class SettingsConfig extends YamlConfig {
 	private @Getter @Setter String TwilioAuthToken = "";
 	private @Getter @Setter String TwilioPhoneNumber = "";
 	
+	private @Getter @Setter String GitHubToken = "";
+	private @Getter @Setter String GitHubRepo = "";
+	
 	private @Getter @Setter boolean AutoHide = true;
+	private @Getter @Setter boolean AutoRestartConfigured = true;
 	
 	@ToString
 	@NoArgsConstructor

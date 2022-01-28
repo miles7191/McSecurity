@@ -42,21 +42,21 @@ import net.cubespace.Yamler.Config.YamlConfig;
 public class McSecurity extends Application {
 
 	public static final Version VERSION = Version.valueOf("0.0.1");
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(McSecurity.class);
-	
+
 	private static String identity;
-	
+
 	private @Getter AlertsConfig alertsConfig;
 	private @Getter DataConfig dataConfig;
 	private @Getter GroupsConfig groupsConfig;
 	private @Getter SettingsConfig settingsConfig;
 	private @Getter UsersConfig usersConfig;
-	
+
 	private @Getter CameraManager cameraManager;
 	private @Getter ProductOutageHandler productOutageHandler;
 	private @Getter STLDHandler sTLDHandler;
-	
+
 	public static void main(String[] args) {
 		boolean gui = true;
 		if(args.length > 0) {
@@ -90,19 +90,48 @@ public class McSecurity extends Application {
 		}) {
 			try {
 				config.init();
-				config.save();
 			} catch (InvalidConfigurationException e) {
 				e.printStackTrace();
 				logger.error("Unable to load " + config.getClass().getSimpleName() + " file!");
-				try {
-					Thread.sleep(5000);
-				} catch (InterruptedException e1) {}
-				System.exit(-1);
+				if(config.backupExists()) {
+					logger.warn("Backup File found for " + config.getClass().getSimpleName() + " attempting to restore backup in 5 seconds...");
+					try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e2) {}
+					if(config.restoreBackup()) {
+						try {
+							config.init();
+							logger.warn("Backup configuration file has been restored and loaded for " + config.getClass().getSimpleName() + ".");
+						} catch (InvalidConfigurationException e1) {
+							try {
+								logger.error("Unable to load " + config.getClass().getSimpleName() + " file! Application will now exit.");
+								Thread.sleep(5000);
+								System.exit(-1);
+							} catch (InterruptedException e2) {}
+						}
+					}else {
+						try {
+							logger.error("Unable to restore " + config.getClass().getSimpleName() + " backup file! Application will now exit.");
+							Thread.sleep(5000);
+							System.exit(-1);
+						} catch (InterruptedException e2) {}
+					}
+				}else {
+					try {
+						logger.error("Application will now exit.");
+						Thread.sleep(5000);
+						System.exit(-1);
+					} catch (InterruptedException e2) {}
+				}
 			}
+			try {
+				config.save();
+				config.createBackup();
+			} catch (InvalidConfigurationException e) {}
 		}
 		logger.info("Launching Application - " + getIdentity() + " Store:" + settingsConfig.getStore());
-		
-		
+
+
 		this.cameraManager = new CameraManager(this);
 		this.productOutageHandler = new ProductOutageHandler(this);
 		this.sTLDHandler = new STLDHandler(this);
@@ -113,14 +142,14 @@ public class McSecurity extends Application {
 		}) {
 			handler.init();
 		}
-		
-		
+
+
 		if(this.getConsole() instanceof ConsoleWindow) {
 			if(settingsConfig.isAutoHide())
 				((ConsoleWindow)(this.getConsole())).setState(Frame.ICONIFIED);
 		}
 	}
-	
+
 	public static String getIdentity() {
 		if(identity == null) {
 			Faker faker = new Faker(new Locale("en-US"));
@@ -128,5 +157,5 @@ public class McSecurity extends Application {
 		}
 		return identity;		
 	}
-	
+
 }
