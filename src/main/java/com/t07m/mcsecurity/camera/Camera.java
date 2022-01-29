@@ -29,7 +29,6 @@ import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.t07m.mcsecurity.McSecurity;
 import com.t07m.mcsecurity.config.SettingsConfig.CameraConfig;
 
 import lombok.Getter;

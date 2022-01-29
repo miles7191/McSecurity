@@ -57,7 +57,7 @@ public class STLDFetcher extends Service<McSecurity>{
 						handler.getWaystationDomain(),
 						handler.getWaystationUsername(),
 						handler.getWaystationPassword());
-				String[] directories = smb.listDirectories("/d/NewPos61/STLD/TEMP");
+				String[] directories = smb.listDirectories("/d/NewPos61/STLD/TEMP/");
 				if(directories != null) {
 					LocalDate date = null;
 					for(String s : directories) {

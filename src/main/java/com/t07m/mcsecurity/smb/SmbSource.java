@@ -106,7 +106,7 @@ public class SmbSource {
 				while(itr.hasNext()) {
 					SmbResource res = itr.next();
 					if(res.isDirectory()) {
-						names.add(itr.next().getName());
+						names.add(res.getName());
 					}
 				}
 				return names.toArray(new String[names.size()]);
