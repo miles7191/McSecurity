@@ -57,7 +57,7 @@ public class SmbSource {
 			SmbResource resource = getContext().get(getRemoteURL(path));
 			if(resource.isFile()) {
 				InputStream is = resource.openInputStream();
-				byte[] data = IOUtils.toByteArray(resource.openInputStream());
+				byte[] data = IOUtils.toByteArray(is);
 				is.close();
 				return data;
 			}

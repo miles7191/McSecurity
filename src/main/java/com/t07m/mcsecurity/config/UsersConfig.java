@@ -18,6 +18,7 @@ package com.t07m.mcsecurity.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

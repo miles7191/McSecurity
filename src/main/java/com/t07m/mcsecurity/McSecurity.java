@@ -35,6 +35,8 @@ import com.t07m.mcsecurity.config.UsersConfig;
 import com.t07m.mcsecurity.github.GitHubHandler;
 import com.t07m.mcsecurity.productoutage.ProductOutageHandler;
 import com.t07m.mcsecurity.stld.STLDHandler;
+import com.t07m.mcsecurity.users.UserGroupManager;
+import com.t07m.mcsecurity.users.UserManager;
 
 import lombok.Getter;
 import net.cubespace.Yamler.Config.InvalidConfigurationException;
@@ -58,6 +60,8 @@ public class McSecurity extends Application {
 	private @Getter ProductOutageHandler productOutageHandler;
 	private @Getter STLDHandler sTLDHandler;
 	private @Getter GitHubHandler gitHubHandler;
+	private @Getter UserGroupManager groupManager;
+	private @Getter UserManager userManager;
 
 	public static void main(String[] args) {
 		boolean gui = true;
@@ -137,11 +141,15 @@ public class McSecurity extends Application {
 		this.productOutageHandler = new ProductOutageHandler(this);
 		this.sTLDHandler = new STLDHandler(this);
 		this.gitHubHandler = new GitHubHandler(this);
+		this.groupManager = new UserGroupManager(this);
+		this.userManager = new UserManager(this);
 		for(Handler handler : new Handler[] {
 				this.cameraManager,
 				this.productOutageHandler,
 				this.sTLDHandler,
-				this.gitHubHandler
+				this.gitHubHandler,
+				this.groupManager,
+				this.userManager
 		}) {
 			handler.init();
 		}
