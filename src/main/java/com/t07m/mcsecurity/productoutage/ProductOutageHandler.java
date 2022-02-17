@@ -30,6 +30,7 @@ public class ProductOutageHandler extends Handler<McSecurity> {
 	private ProductOutageFetcher fetcher;
 
 	private @Getter ProductOutageFile productOutageFile;
+	private @Getter NamesDBFile namesDBFile;
 
 	public ProductOutageHandler(McSecurity app) {
 		super(app);
@@ -48,6 +49,12 @@ public class ProductOutageHandler extends Handler<McSecurity> {
 	public void generateProductOutage(byte[] data) {
 		if(data != null) {
 			productOutageFile = new ProductOutageFile(new String(data));
+		}
+	}
+	
+	public void generateNamesDB(byte[] data) {
+		if(data != null) {
+			namesDBFile = new NamesDBFile(new String(data));
 		}
 	}
 

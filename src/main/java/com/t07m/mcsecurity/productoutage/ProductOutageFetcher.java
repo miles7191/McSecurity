@@ -15,8 +15,6 @@
  */
 package com.t07m.mcsecurity.productoutage;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
@@ -43,23 +41,19 @@ public class ProductOutageFetcher extends Service<McSecurity> {
 				handler.getWaystationDomain(),
 				handler.getWaystationUsername(),
 				handler.getWaystationPassword());
-		String[] directories = smb.listDirectories("/d/NewPos61/STLD/TEMP");
-		if(directories != null) {
-			LocalDate date = null;
-			for(String s : directories) {
-				s = s.replace("/", "");
-				try {
-					LocalDate d = LocalDate.parse(s, DateTimeFormatter.BASIC_ISO_DATE);
-					if(date == null || d.isAfter(date)) {
-						date = d;
+		String[] files = smb.list("/d/NewPos61/posdata", "*.xml");
+		if(files != null) {
+			for(String file : files) {
+				if(file.equals("prodoutage.xml")) {
+					byte[] data = smb.readFile("/d/NewPos61/posdata/prodoutage.xml");
+					if(data != null) {
+						handler.generateProductOutage(data);
 					}
-				}catch(Exception e) {}
-			}
-			if(date != null) {
-				long timestamp = System.currentTimeMillis();
-				byte[] data = smb.readFile("/d/NewPos61/STLD/TEMP/" + DateTimeFormatter.BASIC_ISO_DATE.format(date) + "/STLD.TLD");
-				if(data != null) {
-					handler.generateProductOutage(data);
+				}else if(file.equals("names-db.xml")) {
+					byte[] data = smb.readFile("/d/NewPos61/posdata/names-db.xml");
+					if(data != null) {
+						handler.generateNamesDB(data);
+					}
 				}
 			}
 		}
